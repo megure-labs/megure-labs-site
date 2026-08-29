@@ -1,9 +1,38 @@
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
+import { createServer } from "node:net";
+import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
-const port = 4173;
+async function findAvailablePort() {
+  const probe = createServer();
+  await new Promise((resolve, reject) => {
+    probe.once("error", reject);
+    probe.listen(0, "127.0.0.1", resolve);
+  });
+  const address = probe.address();
+  if (!address || typeof address === "string") {
+    probe.close();
+    throw new Error("Could not allocate a local preview port.");
+  }
+  await new Promise((resolve, reject) => {
+    probe.close((error) => (error ? reject(error) : resolve()));
+  });
+  return address.port;
+}
+
+async function installDeterministicRandom(page) {
+  await page.addInitScript(() => {
+    let state = 0x6d2b79f5;
+    Math.random = () => {
+      state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+      return state / 4294967296;
+    };
+  });
+}
+
+const port = await findAvailablePort();
 const baseUrl = `http://127.0.0.1:${port}`;
 const outputDir = new URL("../previews/", import.meta.url);
 
@@ -64,6 +93,7 @@ try {
   browser = await chromium.launch({ executablePath, headless: true });
 
   const motionPage = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  await installDeterministicRandom(motionPage);
   await motionPage.emulateMedia({ reducedMotion: "no-preference" });
   await motionPage.goto(baseUrl, { waitUntil: "networkidle" });
   const motionDiagnostics = await motionPage.evaluate(() => {
@@ -115,6 +145,7 @@ try {
 
   for (const viewport of viewports) {
     const page = await browser.newPage({ viewport });
+    await installDeterministicRandom(page);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
@@ -136,6 +167,7 @@ try {
         ".benchmark-head",
         ".benchmark-foot",
         ".proof-item",
+        ".footer-links",
       ].join(",");
 
       const clipped = Array.from(document.querySelectorAll(selectors))
@@ -172,6 +204,7 @@ try {
         ".project-grid",
         ".evaluation-grid",
         ".footer-grid",
+        ".footer-links a",
       ].join(",");
 
       const escaped = Array.from(document.querySelectorAll(boundedSelectors))
@@ -193,7 +226,7 @@ try {
     });
 
     const screenshotUrl = new URL(`${viewport.name}.png`, outputDir);
-    await page.screenshot({ path: screenshotUrl.pathname, fullPage: true });
+    await page.screenshot({ path: fileURLToPath(screenshotUrl), fullPage: true });
 
     const anchorCollisions = [];
     for (const anchor of ["why", "hataya", "provenance", "kaname", "open-source", "contact"]) {
@@ -236,7 +269,7 @@ try {
         const tileUrl = new URL(`${String(tileIndex).padStart(2, "0")}.png`, scrollOutputDir);
         await page.setViewportSize({ width: viewport.width, height: currentTileHeight });
         await page.evaluate((top) => window.scrollTo(0, top), tileTop);
-        await page.screenshot({ path: tileUrl.pathname });
+        await page.screenshot({ path: fileURLToPath(tileUrl) });
         if (tileTop + currentTileHeight >= documentHeight) break;
         tileTop += tileHeight - tileOverlap;
         tileIndex += 1;
@@ -249,7 +282,7 @@ try {
           await page.addStyleTag({ content: ".site-header{display:none!important}" });
         }
         const sectionUrl = new URL(`${section.name}.png`, sectionOutputDir);
-        await page.locator(section.selector).screenshot({ path: sectionUrl.pathname });
+        await page.locator(section.selector).screenshot({ path: fileURLToPath(sectionUrl) });
       }
       console.log(
         `[${viewport.name}] inspectable previews -> previews/${viewport.name}-scroll/ and previews/${viewport.name}-sections/`,

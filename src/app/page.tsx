@@ -401,6 +401,10 @@ export default function Home() {
             <p>Execution and orchestration systems for AI4Science.</p>
           </div>
           <div className="footer-links">
+            <a href="https://orikata.ai" target="_blank" rel="noreferrer">
+              Orikata Bio by Megure Labs
+              <Arrow diagonal />
+            </a>
             <a href="https://github.com/megure-labs" target="_blank" rel="noreferrer">
               GitHub
               <Arrow diagonal />
