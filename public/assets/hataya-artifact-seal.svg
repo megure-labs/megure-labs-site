@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title" viewBox="0 0 470 470">
+  <title id="title">Hataya compiled-model artifact with a woven model core and verification seal</title>
+  <defs>
+    <linearGradient id="artifact-edge" x1="90" y1="70" x2="380" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4DD8FF"/>
+      <stop offset=".52" stop-color="#1E58AE"/>
+      <stop offset="1" stop-color="#9B5FC2"/>
+    </linearGradient>
+    <linearGradient id="artifact-weave-a" x1="175" y1="105" x2="285" y2="350" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4DD8FF"/>
+      <stop offset="1" stop-color="#2F74D0"/>
+    </linearGradient>
+    <linearGradient id="artifact-weave-b" x1="295" y1="105" x2="180" y2="350" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B06CE0"/>
+      <stop offset="1" stop-color="#7B3F9E"/>
+    </linearGradient>
+    <clipPath id="artifact-core-clip">
+      <rect x="194" y="108" width="82" height="254" rx="26"/>
+    </clipPath>
+  </defs>
+
+  <path d="M30 235A205 72 0 0 1 440 235" fill="none" opacity=".74" stroke="url(#artifact-edge)" stroke-width="4"/>
+  <path d="M21 235A214 81 0 0 1 449 235" fill="none" opacity=".7" stroke="url(#artifact-edge)" stroke-dasharray="2 13" stroke-linecap="round" stroke-width="7"/>
+
+  <rect x="137" y="68" width="196" height="334" rx="64" fill="none" opacity=".28" stroke="#4DD8FF" stroke-width="4"/>
+  <rect x="145" y="60" width="180" height="350" rx="60" fill="none" opacity=".28" stroke="#9B5FC2" stroke-width="4"/>
+  <rect x="153" y="48" width="164" height="374" rx="56" fill="#FFF" fill-opacity=".72" stroke="url(#artifact-edge)" stroke-width="7"/>
+  <rect x="178" y="82" width="114" height="306" rx="35" fill="#16324E" stroke="#41678D" stroke-width="4"/>
+  <rect x="194" y="108" width="82" height="254" rx="26" fill="#071A2D" stroke="#5B7896" stroke-width="2"/>
+
+  <g clip-path="url(#artifact-core-clip)">
+    <path d="M210 110C210 143 260 143 260 176C260 209 210 209 210 242C210 275 260 275 260 308C260 341 210 341 210 360" fill="none" stroke="#071A2D" stroke-linecap="round" stroke-width="24"/>
+    <path d="M210 110C210 143 260 143 260 176C260 209 210 209 210 242C210 275 260 275 260 308C260 341 210 341 210 360" fill="none" stroke="url(#artifact-weave-a)" stroke-linecap="round" stroke-width="13"/>
+    <path d="M260 110C260 143 210 143 210 176C210 209 260 209 260 242C260 275 210 275 210 308C210 341 260 341 260 360" fill="none" stroke="#071A2D" stroke-linecap="round" stroke-width="24"/>
+    <path d="M260 110C260 143 210 143 210 176C210 209 260 209 260 242C260 275 210 275 210 308C210 341 260 341 260 360" fill="none" stroke="url(#artifact-weave-b)" stroke-linecap="round" stroke-width="13"/>
+  </g>
+
+  <path d="M165 116V354M305 116V354" fill="none" opacity=".72" stroke="#8FB0D6" stroke-linecap="round" stroke-width="4"/>
+  <rect x="177" y="61" width="116" height="10" rx="5" fill="url(#artifact-edge)"/>
+  <rect x="177" y="399" width="116" height="10" rx="5" fill="url(#artifact-edge)"/>
+  <path d="M440 235A205 72 0 0 1 30 235" fill="none" opacity=".74" stroke="url(#artifact-edge)" stroke-width="4"/>
+  <path d="M449 235A214 81 0 0 1 21 235" fill="none" opacity=".7" stroke="url(#artifact-edge)" stroke-dasharray="2 13" stroke-linecap="round" stroke-width="7"/>
+  <circle cx="30" cy="235" r="8" fill="#4DD8FF" stroke="#FFF" stroke-width="4"/>
+  <circle cx="440" cy="235" r="8" fill="#9B5FC2" stroke="#FFF" stroke-width="4"/>
+</svg>
