@@ -54,10 +54,16 @@ The deploy script builds the static site and uploads `out/` using `wrangler.toml
 
 ### Cloudflare Workers Builds from GitHub
 
-The production Worker is connected to the public
-`megure-labs/megure-labs-site` repository. A push to public `main` runs the
-build and deploys the static export. The production custom domain is
-`megure.ai`.
+Connect the production Worker to the public `megure-labs/megure-labs-site`
+repository with these settings:
+
+- Production branch: `main`
+- Root directory: `/`
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Custom domain: `megure.ai`
+
+Once connected, a push to public `main` builds and deploys the static export.
 
 No server runtime or environment variables are required.
 
